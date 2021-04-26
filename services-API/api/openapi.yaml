@@ -2,9 +2,7 @@ openapi: 3.0.1
 info:
   title: Pet's Social Network (Services API)
   description: "This is a sample Pets Social Network server.  You can find out more\
-    \ about     this project at [Github repository](http://swagger.iohttps://github.com/davblckqueen/pet-social-network).\
-    \      For this sample, you can use the api key `special-key` to test the authorization\
-    \     filters."
+    \ about     this project at [Github repository](http://swagger.iohttps://github.com/davblckqueen/pet-social-network)."
   contact:
     name: David Reina
     email: ing.dsrr@gmail.com
