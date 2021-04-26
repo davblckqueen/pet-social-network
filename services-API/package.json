@@ -4,17 +4,20 @@
   "description": "This is a sample Pets Social Network server.  You can find out more about     this project at [Github repository](http://swagger.iohttps://github.com/davblckqueen/pet-social-network).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "prestart": "npm install",
+    "start": "node index.js"
   },
   "keywords": [
     "swagger"
   ],
-  "license": "Unlicense",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
+    "cors": "^2.8.5",
     "js-yaml": "^3.3.0",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.12.5",
     "oas3-tools": "^2.2.3"
   }
 }

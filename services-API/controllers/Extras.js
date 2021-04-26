@@ -1,10 +1,13 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var Extras = require('../service/ExtrasService');
+const utils = require('../utils/writer.js');
+const Providers = require('../service/ProviderService');
+const Vendors = require('../service/VendorService');
+const Tickets = require('../service/TicketService');
+const Products = require('../service/ProductService');
 
 module.exports.getProductById = function getProductById (req, res, next, productId) {
-  Extras.getProductById(productId)
+    Products.getProductById(productId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -14,7 +17,7 @@ module.exports.getProductById = function getProductById (req, res, next, product
 };
 
 module.exports.getProducts = function getProducts (req, res, next, providerId) {
-  Extras.getProducts(providerId)
+    Products.getProducts(providerId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -24,7 +27,7 @@ module.exports.getProducts = function getProducts (req, res, next, providerId) {
 };
 
 module.exports.getProviderById = function getProviderById (req, res, next, providerId) {
-  Extras.getProviderById(providerId)
+    Providers.getProviderById(providerId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -34,7 +37,7 @@ module.exports.getProviderById = function getProviderById (req, res, next, provi
 };
 
 module.exports.getProviders = function getProviders (req, res, next) {
-  Extras.getProviders()
+  Providers.getProviders()
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -44,7 +47,7 @@ module.exports.getProviders = function getProviders (req, res, next) {
 };
 
 module.exports.getTicketById = function getTicketById (req, res, next, ticketId) {
-  Extras.getTicketById(ticketId)
+    Tickets.getTicketById(ticketId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -53,8 +56,8 @@ module.exports.getTicketById = function getTicketById (req, res, next, ticketId)
     });
 };
 
-module.exports.getTickets = function getTickets (req, res, next) {
-  Extras.getTickets()
+module.exports.getTickets = function getTickets (req, res, next, providerId) {
+    Tickets.getTickets(providerId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -64,7 +67,7 @@ module.exports.getTickets = function getTickets (req, res, next) {
 };
 
 module.exports.getVendorById = function getVendorById (req, res, next, vendorId) {
-  Extras.getVendorById(vendorId)
+    Vendors.getVendorById(vendorId)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -74,7 +77,17 @@ module.exports.getVendorById = function getVendorById (req, res, next, vendorId)
 };
 
 module.exports.getVendors = function getVendors (req, res, next) {
-  Extras.getVendors()
+    Vendors.getVendors()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.getVendorsByProvider = function getVendors (req, res, next, providerId) {
+    Vendors.getVendorsByProvider(providerId)
     .then(function (response) {
       utils.writeJson(res, response);
     })

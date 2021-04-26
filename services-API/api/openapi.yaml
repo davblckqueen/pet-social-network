@@ -12,8 +12,8 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.1.0
-servers:
-- url: https://petstore.swagger.io/v2
+#servers:
+#- url: https://petstore.swagger.io/v2
 tags:
 - name: sales
   description: Everything about your sales of Providers
@@ -205,6 +205,32 @@ paths:
                   $ref: '#/components/schemas/VendorResponse'
                 x-content-type: application/json
       x-swagger-router-controller: Extras
+  /providers/{providerId}/vendors:
+    get:
+      tags:
+      - extras
+      summary: Returns all vendors from a specific Provider
+      operationId: getVendorsByProvider
+      parameters:
+      - name: providerId
+        in: path
+        description: ID of provider
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VendorResponse'
+                x-content-type: application/json
+      x-swagger-router-controller: Extras
   /vendors/{vendorId}:
     get:
       tags:
@@ -228,12 +254,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/VendorResponse'
       x-swagger-router-controller: Extras
-  /tickets:
+  /providers/{providerId}/tickets:
     get:
       tags:
       - extras
       summary: Returns all tickets
       operationId: getTickets
+      parameters:
+      - name: providerId
+        in: path
+        description: ID of provider
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       responses:
         "200":
           description: successful operation
@@ -279,23 +314,7 @@ components:
         name:
           type: string
           example: alimentosShop
-        vendors:
-          type: array
-          example:
-          - a02sfD51Sdf5csSD51S8C457a
-          - a02sfD51Sdf5csSD51S8C457b
-          - a02sfD51Sdf5csSD51S8C457c
-          items:
-            type: string
-        ledger:
-          type: array
-          example:
-          - a02sfD51Sdf5csSD51S8C467a
-          - a02sfD51Sdf5csSD51S8C467b
-          - a02sfD51Sdf5csSD51S8C467c
-          items:
-            type: string
-        status:
+        type:
           type: string
           enum:
           - STORE
@@ -304,22 +323,17 @@ components:
           type: string
           format: date-time
       example:
-        ledger:
-        - a02sfD51Sdf5csSD51S8C467a
-        - a02sfD51Sdf5csSD51S8C467b
-        - a02sfD51Sdf5csSD51S8C467c
-        name: alimentosShop
         _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        vendors:
-        - a02sfD51Sdf5csSD51S8C457a
-        - a02sfD51Sdf5csSD51S8C457b
-        - a02sfD51Sdf5csSD51S8C457c
-        createdOn: 2000-01-23T04:56:07.000+00:00
+        name: alimentosShop
         status: STORE
+        createdOn: 2000-01-23T04:56:07.000+00:00
     VendorResponse:
       type: object
       properties:
         _id:
+          type: string
+          format: uuid
+        providerId:
           type: string
           format: uuid
         name:
@@ -329,8 +343,9 @@ components:
           type: string
           format: date-time
       example:
-        name: Roberto Perez
         _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        providerId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: Roberto Perez
         createdOn: 2000-01-23T04:56:07.000+00:00
     ProductResponse:
       type: object
@@ -349,21 +364,24 @@ components:
           example: Bulto de concentrado para perros
         value:
           type: number
-          format: double
+          format: float
         createdOn:
           type: string
           format: date-time
       example:
+        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         providerId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         name: Bulto de concentrado
         description: Bulto de concentrado para perros
-        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        value: 0.80082819046101150206595775671303272247314453125
+        value: 0.80082819
         createdOn: 2000-01-23T04:56:07.000+00:00
     TicketResponse:
       type: object
       properties:
         _id:
+          type: string
+          format: uuid
+        providerId:
           type: string
           format: uuid
         products:
@@ -378,25 +396,26 @@ components:
           format: uuid
         value:
           type: number
-          format: double
+          format: float
         tax:
           type: number
-          format: double
+          format: float
         createdOn:
           type: string
           format: date-time
       example:
+        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        providerId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         customerId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         vendorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        tax: 1.46581298050294517310021547018550336360931396484375
-        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        value: 6.02745618307040320615897144307382404804229736328125
-        createdOn: 2000-01-23T04:56:07.000+00:00
+        value: 6.02745618307
+        tax: 1.46581298050
         products:
-        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          qty: 1
-        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          qty: 1
+          - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            qty: 1
+          - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            qty: 1
+        createdOn: 2000-01-23T04:56:07.000+00:00
     ProductDetail:
       type: object
       properties:
