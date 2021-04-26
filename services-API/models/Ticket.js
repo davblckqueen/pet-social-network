@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const TicketMongoSchema = new mongoose.Schema({
     providerId: String,
-    customerId: String,
-    vendorId: String,
+    customerId: {type: String, index: true},
+    vendorId: {type: String, index: true},
     products: [{
         productId: {type: String, index: true},
         qty: {type: Number, index: true}

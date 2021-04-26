@@ -13,7 +13,7 @@ module.exports.buyProductById = function buyProductById (req, res, next, body, p
     });
 };
 
-module.exports.getProviderSales = function getProviderSales (req, res, next, providerId, customerId, vendorId, products) {
+module.exports.getProviderSales = function getProviderSales (req, res, next, customerId, vendorId, products, providerId) {
   Sales.getProviderSales(providerId, customerId, vendorId, products)
     .then(function (response) {
       utils.writeJson(res, response);
