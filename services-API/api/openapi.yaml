@@ -1,0 +1,425 @@
+openapi: 3.0.1
+info:
+  title: Pet's Social Network (Services API)
+  description: "This is a sample Pets Social Network server.  You can find out more\
+    \ about     this project at [Github repository](http://swagger.iohttps://github.com/davblckqueen/pet-social-network).\
+    \      For this sample, you can use the api key `special-key` to test the authorization\
+    \     filters."
+  contact:
+    name: David Reina
+    email: ing.dsrr@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.1.0
+servers:
+- url: https://petstore.swagger.io/v2
+tags:
+- name: sales
+  description: Everything about your sales of Providers
+- name: extras
+  description: Everything about your Providers and their ecosystem
+paths:
+  /providers:
+    get:
+      tags:
+      - extras
+      summary: Returns all providers
+      operationId: getProviders
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProviderResponse'
+                x-content-type: application/json
+      x-swagger-router-controller: Extras
+  /providers/{providerId}:
+    get:
+      tags:
+      - extras
+      summary: Returns all providers
+      operationId: getProviderById
+      parameters:
+      - name: providerId
+        in: path
+        description: ID of provider to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderResponse'
+      x-swagger-router-controller: Extras
+  /providers/{providerId}/sales:
+    get:
+      tags:
+      - sales
+      summary: Returns all SALES REPORT of a provider
+      operationId: getProviderSales
+      parameters:
+      - name: providerId
+        in: path
+        description: ID of provider to filter
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: customerId
+        in: query
+        description: ID of customet to filter
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: vendorId
+        in: query
+        description: ID of vendor to filter
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: products
+        in: query
+        description: IDs of product to filter
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            description: IDs of product to filter
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderResponse'
+      x-swagger-router-controller: Sales
+  /providers/{providerId}/products:
+    get:
+      tags:
+      - extras
+      summary: Returns all products of a Provider
+      operationId: getProducts
+      parameters:
+      - name: providerId
+        in: path
+        description: ID of provider
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResponse'
+                x-content-type: application/json
+      x-swagger-router-controller: Extras
+    post:
+      tags:
+      - sales
+      summary: BUY a Product
+      operationId: buyProductById
+      parameters:
+      - name: providerId
+        in: path
+        description: ID of provider
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Ticket object that needs to be added to the ledger
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyRequest'
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+      x-codegen-request-body-name: body
+      x-swagger-router-controller: Sales
+  /products/{productId}:
+    get:
+      tags:
+      - extras
+      summary: Returns one Product
+      operationId: getProductById
+      parameters:
+      - name: productId
+        in: path
+        description: ID of product to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+      x-swagger-router-controller: Extras
+  /vendors:
+    get:
+      tags:
+      - extras
+      summary: Returns all vendors
+      operationId: getVendors
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VendorResponse'
+                x-content-type: application/json
+      x-swagger-router-controller: Extras
+  /vendors/{vendorId}:
+    get:
+      tags:
+      - extras
+      summary: Returns one vendor
+      operationId: getVendorById
+      parameters:
+      - name: vendorId
+        in: path
+        description: ID of vendor to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorResponse'
+      x-swagger-router-controller: Extras
+  /tickets:
+    get:
+      tags:
+      - extras
+      summary: Returns all tickets
+      operationId: getTickets
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketResponse'
+                x-content-type: application/json
+      x-swagger-router-controller: Extras
+  /tickets/{ticketId}:
+    get:
+      tags:
+      - extras
+      summary: Returns one ticket
+      operationId: getTicketById
+      parameters:
+      - name: ticketId
+        in: path
+        description: ID of vendor to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+      x-swagger-router-controller: Extras
+components:
+  schemas:
+    ProviderResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: alimentosShop
+        vendors:
+          type: array
+          example:
+          - a02sfD51Sdf5csSD51S8C457a
+          - a02sfD51Sdf5csSD51S8C457b
+          - a02sfD51Sdf5csSD51S8C457c
+          items:
+            type: string
+        ledger:
+          type: array
+          example:
+          - a02sfD51Sdf5csSD51S8C467a
+          - a02sfD51Sdf5csSD51S8C467b
+          - a02sfD51Sdf5csSD51S8C467c
+          items:
+            type: string
+        status:
+          type: string
+          enum:
+          - STORE
+          - DAYCARE
+        createdOn:
+          type: string
+          format: date-time
+      example:
+        ledger:
+        - a02sfD51Sdf5csSD51S8C467a
+        - a02sfD51Sdf5csSD51S8C467b
+        - a02sfD51Sdf5csSD51S8C467c
+        name: alimentosShop
+        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        vendors:
+        - a02sfD51Sdf5csSD51S8C457a
+        - a02sfD51Sdf5csSD51S8C457b
+        - a02sfD51Sdf5csSD51S8C457c
+        createdOn: 2000-01-23T04:56:07.000+00:00
+        status: STORE
+    VendorResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Roberto Perez
+        createdOn:
+          type: string
+          format: date-time
+      example:
+        name: Roberto Perez
+        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdOn: 2000-01-23T04:56:07.000+00:00
+    ProductResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        providerId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Bulto de concentrado
+        description:
+          type: string
+          example: Bulto de concentrado para perros
+        value:
+          type: number
+          format: double
+        createdOn:
+          type: string
+          format: date-time
+      example:
+        providerId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: Bulto de concentrado
+        description: Bulto de concentrado para perros
+        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        value: 0.80082819046101150206595775671303272247314453125
+        createdOn: 2000-01-23T04:56:07.000+00:00
+    TicketResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        customerId:
+          type: string
+          format: uuid
+        vendorId:
+          type: string
+          format: uuid
+        value:
+          type: number
+          format: double
+        tax:
+          type: number
+          format: double
+        createdOn:
+          type: string
+          format: date-time
+      example:
+        customerId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        vendorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        tax: 1.46581298050294517310021547018550336360931396484375
+        _id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        value: 6.02745618307040320615897144307382404804229736328125
+        createdOn: 2000-01-23T04:56:07.000+00:00
+        products:
+        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          qty: 1
+        - productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          qty: 1
+    ProductDetail:
+      type: object
+      properties:
+        productId:
+          type: string
+          format: uuid
+        qty:
+          minimum: 1
+          type: integer
+          format: int64
+      example:
+        productId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        qty: 1
+    BuyRequest:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        customerId:
+          type: string
+          format: uuid
+        vendorId:
+          type: string
+          format: uuid
