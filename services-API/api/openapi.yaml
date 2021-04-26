@@ -12,8 +12,9 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.1.0
-#servers:
-#- url: https://petstore.swagger.io/v2
+servers:
+- url: https://pets-service.herokuapp.com/
+- url: http://localhost:8080/
 tags:
 - name: sales
   description: Everything about your sales of Providers
