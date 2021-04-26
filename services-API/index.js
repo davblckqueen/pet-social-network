@@ -4,7 +4,7 @@ const path = require('path');
 const http = require('http');
 
 const oas3Tools = require('oas3-tools');
-const serverPort = 8080;
+const serverPort = process.env.PORT || 8080;
 
 // Dependencies
 const cors = require('cors');
